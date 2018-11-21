@@ -7,6 +7,7 @@
 #include "epd2in13.h"
 #include "epdpaint.h"
 #include "imagedata.h"
+#include "si7020_i2c.h"
 
 #define LED_GPIO_PORT  GPIOD
 #define LED_GPIO_PINS  (GPIO_Pin_4 | GPIO_Pin_1)
@@ -16,6 +17,29 @@ char time_string[] = {'0', '0', ':', '0', '0', '\0'};
 /* Private variables ---------------------------------------------------------*/
 #define COLORED      0
 #define UNCOLORED    1
+struct SI7020_DATA si7020_data;
+int si7020_temperature;
+typedef struct GPIO_LIST_
+{
+    GPIO_TypeDef* port;
+    GPIO_Pin_TypeDef pin;
+}GPIO_LIST;
+static const GPIO_LIST unused_gpios[]=
+{
+    {GPIOA,GPIO_Pin_2},{GPIOA,GPIO_Pin_3},{GPIOA,GPIO_Pin_4},{GPIOA,GPIO_Pin_5},
+    {GPIOB,GPIO_Pin_3},
+    {GPIOC,GPIO_Pin_2},{GPIOC,GPIO_Pin_3},{GPIOC,GPIO_Pin_4},{GPIOC,GPIO_Pin_5},{GPIOC,GPIO_Pin_6},
+    {GPIOD,GPIO_Pin_0},{GPIOD,GPIO_Pin_1},{GPIOD,GPIO_Pin_2},{GPIOD,GPIO_Pin_3},{GPIOD,GPIO_Pin_4},
+};
+#define ARRAY_SIZE(arr) (sizeof(arr)/sizeof((arr)[0]))
+static void GPIOConfig(void)
+{
+    uint8_t i;
+    for(i=0;i<ARRAY_SIZE(unused_gpios);i++)
+    {
+        GPIO_Init(unused_gpios[i].port,unused_gpios[i].pin,GPIO_Mode_Out_PP_Low_Fast);
+    }
+}
 void delay(uint32_t time)
 {
     uint32_t i,j;
@@ -25,12 +49,14 @@ void delay(uint32_t time)
         ;   
     }    
 }
+
 int main(void)
 {
-     CLK_HSICmd(ENABLE);
+    CLK_HSICmd(ENABLE);
     CLK_SYSCLKSourceConfig(CLK_SYSCLKSource_HSI);
-
-    uart1Init();
+    
+    GPIOConfig();
+    //uart1Init();
     enableInterrupts();
     userI2CInit();
     
@@ -88,21 +114,23 @@ int main(void)
   EPD_DisplayFrame(&epd);
   EPD_SetFrameMemory(&epd, IMAGE_DATA, 0, 0, epd.width, epd.height);
   EPD_DisplayFrame(&epd);
+  uint8_t counter = 0;
   /* Infinite loop */
     while (1)
     {
-        delay(70);
-        PCF8563_Read_Time();
-        printf("%d%d%d%d年%d%d月%d%d日\r\n",time_buf1[0]/10,time_buf1[0]%10,time_buf1[1]/10,time_buf1[1]%10,time_buf1[2]/10,time_buf1[2]%10,time_buf1[3]/10,time_buf1[3]%10);
-	printf("%d%d:%d%d:%d%d\r\n",time_buf1[4]/10,time_buf1[4]%10,time_buf1[5]/10,time_buf1[5]%10,time_buf1[6]/10,time_buf1[6]%10);
         
-        /*
-       time_buf1[5]++;
-       time_buf1[6]++;
-    time_string[0] = time_buf1[5] / 10 + '0';
-    time_string[1] = time_buf1[5]  % 10 + '0';
-    time_string[3] = time_buf1[6] / 10 + '0';
-    time_string[4] = time_buf1[6] % 10 + '0';
+        PCF8563_Read_Time();
+        // printf("%d%d%d%d年%d%d月%d%d日\r\n",time_buf1[0]/10,time_buf1[0]%10,time_buf1[1]/10,time_buf1[1]%10,time_buf1[2]/10,time_buf1[2]%10,time_buf1[3]/10,time_buf1[3]%10);
+        // printf("%d%d:%d%d:%d%d\r\n",time_buf1[4]/10,time_buf1[4]%10,time_buf1[5]/10,time_buf1[5]%10,time_buf1[6]/10,time_buf1[6]%10);
+        delay(30);
+        si7020_read(&si7020_temperature) ; 
+        delay(30);
+        
+       counter++;
+    time_string[0] = si7020_temperature / 100 + '0';
+    time_string[1] = (si7020_temperature%100)/10 + '0';
+    time_string[3] = si7020_temperature%10 + '0';
+    time_string[4] = counter % 10 + '0';
   
     Paint_SetWidth(&paint, 32);
     Paint_SetHeight(&paint, 96);
@@ -112,9 +140,14 @@ int main(void)
     Paint_DrawStringAt(&paint, 0, 4, time_string, &Font24, COLORED);
     EPD_SetFrameMemory(&epd, frame_buffer, 80, 72, Paint_GetWidth(&paint), Paint_GetHeight(&paint));
     EPD_DisplayFrame(&epd);
-    if(time_buf1[5]>6)
-    EPD_Sleep(&epd);
-        */
+    
+    if((counter)>6)
+    {
+              EPD_Sleep(&epd);
+    PWR_UltraLowPowerCmd(ENABLE);
+    halt();
+    }
+
     
     }
 }
