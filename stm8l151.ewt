@@ -1942,63 +1942,6 @@
   </configuration>
   <group>
     <name>STM8L15x_StdPeriph_Driver</name>
-    <group>
-      <name>Epd</name>
-      <group>
-        <name>BSP</name>
-        <file>
-          <name>$PROJ_DIR$\epd\BSP\epd2in13.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\BSP\epd2in13.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\BSP\epdhardware.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\BSP\epdhardware.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\BSP\epdif.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\BSP\epdif.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\BSP\epdpaint.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\BSP\epdpaint.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\BSP\imagedata.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\BSP\imagedata.h</name>
-        </file>
-      </group>
-      <group>
-        <name>Fonts</name>
-        <file>
-          <name>$PROJ_DIR$\epd\Fonts\font12.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\Fonts\font16.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\Fonts\font20.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\Fonts\font24.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\Fonts\font8.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\epd\Fonts\fonts.h</name>
-        </file>
-      </group>
-    </group>
     <file>
       <name>$PROJ_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_adc.c</name>
     </file>
@@ -2086,11 +2029,71 @@
   </group>
   <group>
     <name>User</name>
+    <group>
+      <name>Epd</name>
+      <group>
+        <name>BSP</name>
+        <file>
+          <name>$PROJ_DIR$\epd\BSP\epd2in13.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\BSP\epd2in13.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\BSP\epdhardware.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\BSP\epdhardware.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\BSP\epdif.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\BSP\epdif.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\BSP\epdpaint.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\BSP\epdpaint.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\BSP\imagedata.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\BSP\imagedata.h</name>
+        </file>
+      </group>
+      <group>
+        <name>Fonts</name>
+        <file>
+          <name>$PROJ_DIR$\epd\Fonts\font12.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\Fonts\font16.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\Fonts\font20.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\Fonts\font24.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\Fonts\font8.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\epd\Fonts\fonts.h</name>
+        </file>
+      </group>
+    </group>
     <file>
       <name>$PROJ_DIR$\User\main.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\User\pcf8563_i2c.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\User\si7020_i2c.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\User\user_usart.c</name>

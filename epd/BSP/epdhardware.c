@@ -4,7 +4,7 @@
 void epdGPIOInit(void)
 {
     GPIO_Init(DC_GPIO_Port, DC_Pin, GPIO_Mode_Out_PP_High_Fast);
-    GPIO_Init(BUSY_GPIO_Port, BUSY_Pin, GPIO_Mode_Out_PP_High_Fast);
+    GPIO_Init(BUSY_GPIO_Port, BUSY_Pin, GPIO_Mode_In_PU_No_IT);
     GPIO_Init(RST_GPIO_Port, RST_Pin, GPIO_Mode_Out_PP_High_Fast);
     GPIO_Init(SPI_CS_GPIO_Port, SPI_CS_Pin, GPIO_Mode_Out_PP_High_Fast);
     

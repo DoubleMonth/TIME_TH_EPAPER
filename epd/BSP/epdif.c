@@ -68,8 +68,11 @@ int EpdDigitalReadCallback(int pin_num) {
 void epd_Delay(uint32_t nCount)
 {
    /* Decrement nCount value */
-   while (nCount != 0)
+  uint32_t i;
+   while (nCount > 0)
    {
+ //    for(i=0;i<20;i++)
+ //      ;
      nCount--;
    }
 }
